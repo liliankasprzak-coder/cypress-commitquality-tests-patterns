@@ -1,3 +1,5 @@
 // Suporte global: UI com Design Patterns
-// Importa comandos e configurações necessárias
-import './commands';
+// Autora: Lilian Kasprzak
+
+// Importa comandos customizados
+import './commands/Exercicio2Commands';
