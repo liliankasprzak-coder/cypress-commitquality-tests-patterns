@@ -1,0 +1,44 @@
+name: CI - UI tests (patterns)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ui-patterns-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Run Cypress (UI patterns)
+        uses: cypress-io/github-action@v6
+        with:
+          command: npm run test:patterns
+          browser: chrome
+
+      - name: Upload artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-artifacts-ui-patterns
+          path: |
+            cypress/screenshots
+            cypress/videos
+          if-no-files-found: ignore
