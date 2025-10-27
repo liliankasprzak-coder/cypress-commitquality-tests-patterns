@@ -1,0 +1,12 @@
+# Node
+node_modules/
+
+# Cypress artefatos
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+
+# SO/Editor
+.DS_Store
+Thumbs.db
+.vscode/

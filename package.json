@@ -1,0 +1,24 @@
+{
+  "name": "cypress-commitquality-tests-patterns",
+  "version": "1.0.0",
+  "description": "Testes UI (CommitQuality) aplicando Design Patterns com Cypress",
+  "author": "Lilian Kasprzak",
+  "license": "MIT",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:patterns": "cypress run --spec \"cypress/e2e/exercicio2_commitquality_tests-patterns/**/*.cy.js\""
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.1.0",
+    "cypress": "^15.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liliankasprzak-coder/cypress-commitquality-tests-patterns.git"
+  },
+  "bugs": {
+    "url": "https://github.com/liliankasprzak-coder/cypress-commitquality-tests-patterns/issues"
+  },
+  "homepage": "https://github.com/liliankasprzak-coder/cypress-commitquality-tests-patterns#readme"
+}
