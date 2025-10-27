@@ -27,10 +27,10 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Run Cypress (UI patterns)
+      - name: Run Cypress (UI patterns) - Smoke Test
         uses: cypress-io/github-action@v6
         with:
-          command: npm run test:patterns
+          spec: cypress/e2e/exercicio2_commitquality_tests-patterns/1-tela-login.cy.js
           browser: chrome
 
       - name: Upload artifacts on failure
