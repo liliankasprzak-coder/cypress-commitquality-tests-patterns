@@ -1,0 +1,187 @@
+========================================
+CENÁRIOS DE TESTE - ADD PRODUCT (DESIGN PATTERNS)
+========================================
+Aplicação: CommitQuality
+URL: https://commitquality.com/add-product
+Data: 26/10/2025
+Autora: Lilian Kasprzak
+Analista de QA
+
+Design Patterns Aplicados:
+- Page Object Model
+- Builder Pattern
+
+========================================
+CENÁRIO 1: Validar layout da tela de adicionar produto
+========================================
+Feature: Validação de Layout
+Como analista de QA
+Quero validar os elementos da página Add Product
+Para garantir que todos os campos estão presentes
+
+Dado que estou na página Add Product
+Quando a página carrega
+Então devo ver o campo "Product Name"
+E devo ver o campo "Price"
+E devo ver o campo "Date Stocked"
+E devo ver o botão "Submit"
+E devo ver o botão "Cancel"
+
+Pattern Aplicado: Page Object Model
+Benefício: Centraliza os seletores e ações da página
+
+========================================
+CENÁRIO 2: Adicionar produto completo com sucesso
+========================================
+Feature: Cadastro de Produto
+Como usuário
+Quero cadastrar um produto completo
+Para adicionar ao sistema
+
+Dado que estou na página Add Product
+Quando preencho o nome do produto com dados gerados
+E preencho o preço com dados gerados
+E preencho a data com a data de hoje
+E clico no botão Submit
+Então o produto deve ser cadastrado com sucesso
+
+Pattern Aplicado: Builder Pattern
+Benefício: Facilita a criação de objetos complexos com dados dinâmicos
+
+========================================
+CENÁRIO 3: Validar campo obrigatório - Nome vazio
+========================================
+Feature: Validação de Campos Obrigatórios
+Como sistema
+Quero validar campos obrigatórios
+Para garantir integridade dos dados
+
+Dado que estou na página Add Product
+Quando preencho apenas o campo "Price"
+E clico no botão Submit
+Então devo permanecer na página "/add-product"
+E o formulário não deve ser submetido
+
+Pattern Aplicado: Page Object Model + Builder Pattern
+Benefício: Teste mais legível e manutenível
+
+========================================
+CENÁRIO 4: Validar campo obrigatório - Preço vazio
+========================================
+Feature: Validação de Campos Obrigatórios
+Como sistema
+Quero validar campos obrigatórios
+Para garantir integridade dos dados
+
+Dado que estou na página Add Product
+Quando preencho apenas o campo "Product Name"
+E clico no botão Submit
+Então devo permanecer na página "/add-product"
+E o formulário não deve ser submetido
+
+========================================
+CENÁRIO 5: Validar campo obrigatório - Data vazia
+========================================
+Feature: Validação de Campos Obrigatórios
+Como sistema
+Quero validar campos obrigatórios
+Para garantir integridade dos dados
+
+Dado que estou na página Add Product
+Quando preencho o campo "Product Name"
+E preencho o campo "Price"
+Mas não preencho o campo "Date Stocked"
+E clico no botão Submit
+Então devo permanecer na página "/add-product"
+E o formulário não deve ser submetido
+
+========================================
+CENÁRIO 6: Validar botão Cancel
+========================================
+Feature: Cancelamento de Cadastro
+Como usuário
+Quero cancelar o cadastro
+Para retornar à página inicial
+
+Dado que estou na página Add Product
+Quando clico no botão "Cancel"
+Então devo ser redirecionado para "https://commitquality.com/"
+
+========================================
+CENÁRIO 7: Preencher apenas nome do produto
+========================================
+Feature: Validação de Campos Obrigatórios
+Como sistema
+Quero validar preenchimento parcial
+Para garantir que todos os campos sejam preenchidos
+
+Dado que estou na página Add Product
+Quando preencho apenas o campo "Product Name"
+E limpo os campos "Price" e "Date Stocked"
+E clico no botão Submit
+Então devo permanecer na página "/add-product"
+
+========================================
+CENÁRIO 8: Preencher apenas preço do produto
+========================================
+Feature: Validação de Campos Obrigatórios
+Como sistema
+Quero validar preenchimento parcial
+Para garantir que todos os campos sejam preenchidos
+
+Dado que estou na página Add Product
+Quando limpo o campo "Product Name"
+E preencho apenas o campo "Price"
+E limpo o campo "Date Stocked"
+E clico no botão Submit
+Então devo permanecer na página "/add-product"
+
+========================================
+CENÁRIO 9: Preencher apenas data do produto
+========================================
+Feature: Validação de Campos Obrigatórios
+Como sistema
+Quero validar preenchimento parcial
+Para garantir que todos os campos sejam preenchidos
+
+Dado que estou na página Add Product
+Quando limpo os campos "Product Name" e "Price"
+E preencho apenas o campo "Date Stocked"
+E clico no botão Submit
+Então devo permanecer na página "/add-product"
+
+========================================
+VANTAGENS DO USO DE DESIGN PATTERNS
+========================================
+
+1. Page Object Model:
+   - Centralização dos seletores
+   - Reutilização de código
+   - Manutenção facilitada
+   - Testes mais legíveis
+
+2. Builder Pattern:
+   - Criação flexível de objetos
+   - Dados de teste consistentes
+   - Facilita testes com dados variados
+   - Código mais expressivo
+
+3. Combinação dos Patterns:
+   - Separação de responsabilidades
+   - Testes mais profissionais
+   - Fácil adaptação a mudanças
+   - Redução de duplicação de código
+
+========================================
+ESTRUTURA DO CÓDIGO
+========================================
+
+Page Object: /cypress/support/pages/AddProductPage.js
+Builder: /cypress/support/builders/ProductBuilder.js
+Testes: /cypress/e2e/exercicio2_commitquality_tests-patterns/
+
+========================================
+EXECUÇÃO DOS TESTES
+========================================
+
+npx cypress run --spec "cypress/e2e/exercicio2_commitquality_tests-patterns/tela-add-product-pattern.cy.js"

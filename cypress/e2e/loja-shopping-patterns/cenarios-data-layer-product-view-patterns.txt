@@ -1,0 +1,103 @@
+Funcionalidade: Data Layer - Visualização de Produto (Design Patterns)
+  Como um analista de QA
+  Quero validar os eventos de visualização de produto no data layer usando Design Patterns
+  Para garantir código limpo e reutilizável
+
+Autora: Lilian Kasprzak
+Data: 27/10/2025
+
+Patterns Aplicados:
+  - Builder Pattern: Construção de produtos com interface fluente
+  - Factory Pattern: Criação de eventos view_item e view_item_list
+  - Strategy Pattern: Validações customizáveis e encadeadas
+
+Cenário 1: Visualizar produto usando Builder e Factory
+  Dado que crio um produto Notebook usando Builder preset
+  Quando uso DataLayerEventFactory.createViewItemEvent()
+  E envio o evento ao data layer
+  Então o validador deve confirmar evento view_item
+  E estrutura de produto deve estar correta
+
+Cenário 2: Validar campos obrigatórios com Strategy Pattern
+  Dado que crio um evento view_item
+  Quando uso validator.validateViewItemEvent()
+  Então deve validar presença de:
+    | campo                  |
+    | event                  |
+    | ecommerce.currency     |
+    | ecommerce.value        |
+    | ecommerce.items        |
+
+Cenário 3: Visualizar lista de produtos com múltiplos Builders
+  Dado que crio 3 produtos usando presets:
+    | preset      |
+    | Keyboard    |
+    | Headset     |
+    | Webcam      |
+  Quando uso Factory.createViewItemListEvent()
+  Então o evento view_item_list deve conter 3 items
+  E o validator deve confirmar estrutura do array
+
+Cenário 4: Customizar produto com Builder fluente
+  Dado que inicio com createProduct()
+  Quando encadeio métodos:
+    - withId('PROD-999')
+    - withName('Monitor 4K')
+    - withPrice(1299.90)
+    - withCategory('Monitores')
+    - withBrand('LG')
+  E chamo build()
+  Então o produto deve ter todos os valores customizados
+
+Cenário 5: Validar campos específicos de produto
+  Dado que crio um produto Smartphone usando preset
+  Quando uso validator.validateFieldValue()
+  Então deve validar:
+    | campo                          | valor              |
+    | ecommerce.items[0].item_id     | PROD-010           |
+    | ecommerce.items[0].item_name   | Smartphone Samsung |
+    | ecommerce.items[0].price       | 499.90             |
+
+Cenário 6: Usar todos os presets de produtos
+  Dado que o Builder oferece presets:
+    | método        | item_id   | produto              | preço  |
+    | asSmartphone  | PROD-010  | Smartphone Samsung   | 499.90 |
+    | asNotebook    | PROD-001  | Notebook Dell        | 299.90 |
+    | asMouse       | PROD-002  | Mouse Gamer          | 150.00 |
+    | asKeyboard    | PROD-003  | Teclado Mecânico     | 350.00 |
+    | asHeadset     | PROD-004  | Headset Gamer        | 280.00 |
+    | asWebcam      | PROD-005  | Webcam HD            | 180.00 |
+  Quando crio evento view_item para cada preset
+  Então todos devem ter estrutura válida
+  E valores corretos conforme preset
+
+Cenário 7: Validar moeda do evento view_item
+  Dado que crio evento view_item com produto
+  Quando uso validator.validateCurrency('BRL')
+  Então a moeda deve ser BRL
+  E estar presente no objeto ecommerce
+
+Cenário 8: Encadear validações múltiplas
+  Dado que crio evento view_item_list com 3 produtos
+  Quando uso validações encadeadas:
+    - validateEventName('view_item_list')
+    - validateItemsCount(3)
+    - validateItemsStructure()
+  Então todas as validações devem passar
+  E o código deve ser legível
+
+Cenário 9: Validar valor do produto no evento
+  Dado que crio produto com preço 299.90
+  Quando uso Factory para criar view_item
+  Então ecommerce.value deve ser igual ao preço do produto
+  E validator.validateFieldValue() deve confirmar
+
+Cenário 10: Combinar Builder com categoria e marca
+  Dado que crio produto Notebook preset
+  Quando verifico os campos:
+    | campo           | valor           |
+    | item_category   | Eletrônicos     |
+    | item_category2  | Computadores    |
+    | item_brand      | Dell            |
+  Então todos devem estar presentes
+  E com valores corretos do preset

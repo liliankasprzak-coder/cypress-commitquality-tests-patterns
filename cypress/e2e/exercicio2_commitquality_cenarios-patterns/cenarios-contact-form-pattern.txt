@@ -1,0 +1,211 @@
+========================================
+CENÁRIOS DE TESTE - CONTACT FORM (DESIGN PATTERNS)
+========================================
+Aplicação: CommitQuality
+URL: https://commitquality.com/practice-contact-form
+Data: 26/10/2025
+Autora: Lilian Kasprzak
+Analista de QA
+
+Design Patterns Aplicados:
+- Page Object Model
+- Builder Pattern
+
+========================================
+CENÁRIO 1: Submeter formulário vazio
+========================================
+Feature: Validação de Campos Obrigatórios
+Como sistema
+Quero validar que todos os campos são obrigatórios
+Para garantir dados completos
+
+Dado que estou na página Contact Form
+Quando clico no botão Submit sem preencher nenhum campo
+Então devo ver a mensagem "Name is required"
+E devo ver a mensagem "Email is required"
+E devo ver a mensagem "Query Type is required"
+E devo ver a mensagem "Date of Birth is required"
+E devo ver a mensagem "Please check the box to confirm"
+
+Pattern Aplicado: Page Object Model
+Benefício: Validações centralizadas e reutilizáveis
+
+========================================
+CENÁRIO 2: Preencher apenas nome
+========================================
+Feature: Validação de Preenchimento Parcial
+Como sistema
+Quero validar preenchimento parcial do formulário
+Para garantir que todos os campos sejam preenchidos
+
+Dado que estou na página Contact Form
+Quando preencho apenas o campo "Name" com dados gerados
+E clico no botão Submit
+Então devo ver mensagens de erro para os campos não preenchidos
+E o campo "Email" deve ser obrigatório
+E o campo "Query Type" deve ser obrigatório
+E o campo "Date of Birth" deve ser obrigatório
+E o checkbox deve ser obrigatório
+
+Pattern Aplicado: Builder Pattern
+Benefício: Criação simples de objetos parciais para testes
+
+========================================
+CENÁRIO 3: Preencher apenas email
+========================================
+Feature: Validação de Preenchimento Parcial
+Como sistema
+Quero validar preenchimento parcial do formulário
+Para garantir que todos os campos sejam preenchidos
+
+Dado que estou na página Contact Form
+Quando preencho apenas o campo "Email" com dados gerados
+E clico no botão Submit
+Então devo ver mensagens de erro para os campos não preenchidos
+E o campo "Name" deve ser obrigatório
+E o campo "Query Type" deve ser obrigatório
+E o campo "Date of Birth" deve ser obrigatório
+E o checkbox deve ser obrigatório
+
+========================================
+CENÁRIO 4: Preencher apenas data de nascimento
+========================================
+Feature: Validação de Preenchimento Parcial
+Como sistema
+Quero validar preenchimento parcial do formulário
+Para garantir que todos os campos sejam preenchidos
+
+Dado que estou na página Contact Form
+Quando preencho apenas o campo "Date of Birth" com dados gerados
+E clico no botão Submit
+Então devo ver mensagens de erro para os campos não preenchidos
+E o campo "Name" deve ser obrigatório
+E o campo "Email" deve ser obrigatório
+E o campo "Query Type" deve ser obrigatório
+E o checkbox deve ser obrigatório
+
+========================================
+CENÁRIO 5: Preencher apenas query type
+========================================
+Feature: Validação de Preenchimento Parcial
+Como sistema
+Quero validar preenchimento parcial do formulário
+Para garantir que todos os campos sejam preenchidos
+
+Dado que estou na página Contact Form
+Quando seleciono apenas o campo "Query Type"
+E clico no botão Submit
+Então devo ver mensagens de erro para os campos não preenchidos
+E o campo "Name" deve ser obrigatório
+E o campo "Email" deve ser obrigatório
+E o campo "Date of Birth" deve ser obrigatório
+E o checkbox deve ser obrigatório
+
+========================================
+CENÁRIO 6: Preencher apenas checkbox
+========================================
+Feature: Validação de Preenchimento Parcial
+Como sistema
+Quero validar preenchimento parcial do formulário
+Para garantir que todos os campos sejam preenchidos
+
+Dado que estou na página Contact Form
+Quando marco apenas o checkbox de consentimento
+E clico no botão Submit
+Então devo ver mensagens de erro para os campos não preenchidos
+E o campo "Name" deve ser obrigatório
+E o campo "Email" deve ser obrigatório
+E o campo "Query Type" deve ser obrigatório
+E o campo "Date of Birth" deve ser obrigatório
+
+========================================
+CENÁRIO 7: Preencher todos os campos e submeter com sucesso
+========================================
+Feature: Envio de Formulário
+Como usuário
+Quero preencher todos os campos do formulário
+Para enviar uma mensagem de contato
+
+Dado que estou na página Contact Form
+Quando preencho o campo "Name" com dados gerados
+E preencho o campo "Email" com dados gerados
+E seleciono "General" no campo "Query Type"
+E preencho o campo "Date of Birth" com data gerada
+E marco o checkbox de consentimento
+E clico no botão Submit
+Então devo ver a mensagem "Thanks for contacting us, we will never respond!"
+
+Pattern Aplicado: Page Object Model + Builder Pattern
+Benefício: Teste completo com dados dinâmicos de forma limpa e legível
+
+========================================
+CENÁRIO 8: Validar preenchimento com dados específicos
+========================================
+Feature: Envio de Formulário com Dados Específicos
+Como analista de QA
+Quero testar o formulário com dados específicos
+Para validar o fluxo completo
+
+Dado que estou na página Contact Form
+Quando preencho o campo "Name" com "Maria Santos"
+E preencho o campo "Email" com "maria@email.com"
+E seleciono "General" no campo "Query Type"
+E preencho o campo "Date of Birth" com "1990-05-15"
+E marco o checkbox de consentimento
+E clico no botão Submit
+Então devo ver a mensagem de sucesso
+
+Pattern Aplicado: Builder Pattern com Fluent Interface
+Benefício: Permite criar objetos com dados específicos de forma expressiva
+
+========================================
+VANTAGENS DO USO DE DESIGN PATTERNS
+========================================
+
+1. Page Object Model:
+   - Elementos centralizados em uma classe
+   - Ações e validações reutilizáveis
+   - Manutenção simplificada
+   - Testes mais limpos e legíveis
+
+2. Builder Pattern:
+   - Criação flexível de objetos de teste
+   - Suporte a dados parciais e completos
+   - Geração de dados aleatórios ou específicos
+   - Interface fluente e intuitiva
+
+3. Combinação dos Patterns:
+   - Separação clara de responsabilidades
+   - Testes mais profissionais e escaláveis
+   - Fácil adaptação a mudanças na UI
+   - Redução significativa de código duplicado
+
+========================================
+ESTRUTURA DO CÓDIGO
+========================================
+
+Page Object: /cypress/support/pages/ContactFormPage.js
+Builder: /cypress/support/builders/ContactFormBuilder.js
+Testes: /cypress/e2e/exercicio2_commitquality_tests-patterns/
+
+========================================
+EXECUÇÃO DOS TESTES
+========================================
+
+npx cypress run --spec "cypress/e2e/exercicio2_commitquality_tests-patterns/tela-contact-form-pattern.cy.js"
+
+========================================
+COMPARAÇÃO: ANTES E DEPOIS
+========================================
+
+ANTES (Sem Patterns):
+- Seletores espalhados pelo código
+- Código duplicado em vários testes
+- Difícil manutenção quando UI muda
+- Criação manual de dados de teste
+
+DEPOIS (Com Patterns):
+- Seletores centralizados no Page Object
+- Código reutilizável
+- Mudanças na UI afetam apenas o Page Object
+- Geração automática de dados com Builder

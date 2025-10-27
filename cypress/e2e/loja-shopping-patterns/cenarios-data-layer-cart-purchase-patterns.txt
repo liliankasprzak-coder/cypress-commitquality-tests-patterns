@@ -1,0 +1,118 @@
+Funcionalidade: Data Layer - Carrinho e Compra (Design Patterns)
+  Como um analista de QA
+  Quero validar os eventos de carrinho e compra no data layer usando Design Patterns
+  Para garantir código reutilizável e manutenível
+
+Autora: Lilian Kasprzak
+Data: 27/10/2025
+
+Patterns Aplicados:
+  - Builder Pattern: Construção de produtos e eventos
+  - Factory Pattern: Criação de diferentes tipos de eventos
+  - Strategy Pattern: Validações customizáveis
+
+Cenário 1: Adicionar produto ao carrinho usando Builder Pattern
+  Dado que crio um produto usando EcommerceProductBuilder
+  Quando uso a Factory para criar evento add_to_cart
+  E envio o evento ao data layer
+  Então o validador deve confirmar estrutura correta do evento
+  E todos os campos obrigatórios devem estar presentes
+
+Cenário 2: Remover produto do carrinho com Factory Pattern
+  Dado que crio um produto Mouse Gamer usando preset do Builder
+  Quando uso DataLayerEventFactory.createRemoveFromCartEvent()
+  E envio o evento ao data layer
+  Então o evento remove_from_cart deve ser validado
+  E o valor e moeda devem estar corretos
+
+Cenário 3: Iniciar checkout com múltiplos produtos usando Builders
+  Dado que crio 3 produtos diferentes usando Builder Pattern
+    | preset      |
+    | Smartphone  |
+    | Notebook    |
+    | Keyboard    |
+  Quando uso Factory para criar evento begin_checkout
+  E adiciono todos os produtos ao evento
+  Então o validador deve confirmar:
+    | validação                    |
+    | Nome do evento correto       |
+    | 3 items no array             |
+    | Valor total calculado        |
+    | Estrutura de items válida    |
+
+Cenário 4: Finalizar compra usando Factory Pattern completo
+  Dado que crio uma transação com:
+    | campo         | valor            |
+    | transactionId | TXN-2025-001     |
+    | affiliation   | Loja Online      |
+    | tax           | 124.97           |
+    | shipping      | 50.00            |
+  E adiciono 3 produtos usando Builder presets
+  Quando uso DataLayerEventFactory.createPurchaseEvent()
+  Então o validador deve usar validatePurchaseEvent()
+  E confirmar todos os campos obrigatórios
+
+Cenário 5: Validar campos obrigatórios usando Strategy Pattern
+  Dado que crio um evento purchase completo
+  Quando uso DataLayerValidator com validateRequiredFields()
+  Então deve validar a presença de:
+    | campo                         |
+    | event                         |
+    | ecommerce.transaction_id      |
+    | ecommerce.value               |
+    | ecommerce.currency            |
+    | ecommerce.items               |
+    | ecommerce.items[0].item_id    |
+
+Cenário 6: Calcular valor total automaticamente com Builder
+  Dado que crio múltiplos produtos com quantidade:
+    | produto    | preço  | quantidade |
+    | Produto 1  | 499.90 | 2          |
+    | Produto 2  | 150.00 | 3          |
+    | Produto 3  | 350.00 | 1          |
+  Quando uso DataLayerEventBuilder.calculateTotalValue()
+  Então o valor total deve ser 1799.80
+  E o validador deve confirmar com validateCalculatedTotal()
+
+Cenário 7: Validar estrutura de items com Strategy Pattern
+  Dado que crio um evento add_to_cart com produtos
+  Quando uso validator.validateItemsStructure()
+  Então cada item deve ter os campos:
+    | campo       |
+    | item_id     |
+    | item_name   |
+    | price       |
+    | quantity    |
+
+Cenário 8: Usar presets de produtos do Builder
+  Dado que uso os presets disponíveis:
+    | método        | produto esperado     |
+    | asSmartphone  | Smartphone Samsung   |
+    | asNotebook    | Notebook Dell        |
+    | asMouse       | Mouse Gamer          |
+    | asKeyboard    | Teclado Mecânico     |
+  Quando crio produtos com cada preset
+  Então todos devem ter estrutura completa
+  E valores pré-definidos corretos
+
+Cenário 9: Encadear validações com Strategy Pattern
+  Dado que tenho um evento de compra
+  Quando uso validator encadeado:
+    - validateEventName('purchase')
+    - validateCurrency('BRL')
+    - validateItemsCount(3)
+    - validateCalculatedTotal()
+  Então todas as validações devem passar
+  E o código deve ser fluente e legível
+
+Cenário 10: Customizar produto com Builder fluente
+  Dado que inicio com createProduct()
+  Quando uso métodos encadeados:
+    - withId('PROD-CUSTOM')
+    - withName('Produto Customizado')
+    - withPrice(999.99)
+    - withQuantity(2)
+    - withBrand('Marca X')
+  E chamo build()
+  Então o produto deve ter todos os valores customizados
+  E estar pronto para uso no Factory
